@@ -16,7 +16,7 @@ int main()
 {
     std::vector<std::string> names, namescpp, nameshpp;
 
-    scandir("/home/test/encrychan", names);
+    scandir("/home/test/encrychan/test", names);
 
     for (const std::string &si : names)
         info(si);
@@ -49,9 +49,9 @@ void scanhpp(const std::vector<std::string> &inpu_t, std::vector<std::string>& r
 
 void scanfind(const std::string &key, std::vector<std::string> inpu_t, std::vector<std::string>& retur_n)
 {
-    for(int i = 0; i < inpu_t.size(); i++)
-        if(inpu_t[i].find(key) != std::string::npos)
-            retur_n.emplace_back(inpu_t[i]);
+    for (auto &i : inpu_t)
+        if(i.find(key) != std::string::npos)
+            retur_n.emplace_back(i);
 }
 
 void scandir(const std::string &folder, std::vector<std::string>& retur_n)
