@@ -14,15 +14,15 @@ void scanclon(std::vector<std::string>& retur_n);
 void scanone(const std::string &folder, std::vector<std::string>& namecpp, std::vector<std::string>& namehpp);
 void info(const std::string &message);
 void scanfander(std::vector<std::string> inpu_t, std::vector<std::string>& retur_n);
-void scanfind(const std::string &key, std::vector<std::string> inpu_t, std::vector<std::string>& retur_n);
+void scanfind(const std::string &key, std::vector<std::string> inpu_t, std::vector<std::string>& retur_n, const std::string &folder);
 void scandir(const std::string &folder, std::vector<std::string>& retur_n);
-void scanhpp(const std::vector<std::string> &inpu_t, std::vector<std::string>& retur_n);
-void scancpp(std::vector<std::string> inpu_t, std::vector<std::string>& retur_n);
+void scanhpp(const std::vector<std::string> &inpu_t, std::vector<std::string>& retur_n, const std::string &folder);
+void scancpp(std::vector<std::string> inpu_t, std::vector<std::string>& retur_n, const std::string &folder);
 
 int main()
 {
     std::vector<std::string> names, namescpp, nameshpp, fander;
-    std::string folder = std::string("/home/") + std::getenv("USER") + "/raknet";
+    std::string folder = std::string("/home/") + std::getenv("USER") + "";
 
     scanone(folder, namescpp, nameshpp);
     scanclon(namescpp);
@@ -59,8 +59,8 @@ void scanone(const std::string &folder, std::vector<std::string>& namecpp, std::
 {
     std::vector<std::string> names, fander;
     scandir(folder, names);
-    scancpp(names, namecpp);
-    scanhpp(names, namehpp);
+    scancpp(names, namecpp, folder);
+    scanhpp(names, namehpp, folder);
     scanfander(names, fander);
 
     for (const std::string &si : fander)
@@ -74,22 +74,22 @@ void scanfander(std::vector<std::string> inpu_t, std::vector<std::string>& retur
             retur_n.emplace_back(i);
 }
 
-void scancpp(std::vector<std::string> inpu_t, std::vector<std::string>& retur_n)
+void scancpp(std::vector<std::string> inpu_t, std::vector<std::string>& retur_n, const std::string &folder)
 {
-    scanfind(".cpp", std::move(inpu_t), retur_n);
+    scanfind(".cpp", std::move(inpu_t), retur_n, folder);
 }
 
-void scanhpp(const std::vector<std::string> &inpu_t, std::vector<std::string>& retur_n)
+void scanhpp(const std::vector<std::string> &inpu_t, std::vector<std::string>& retur_n, const std::string &folder)
 {
-    scanfind(".hpp", inpu_t, retur_n);
-    scanfind(".h", inpu_t, retur_n);
+    scanfind(".hpp", inpu_t, retur_n, folder);
+  //  scanfind(".h", inpu_t, retur_n, folder);
 }
 
-void scanfind(const std::string &key, std::vector<std::string> inpu_t, std::vector<std::string>& retur_n)
+void scanfind(const std::string &key, std::vector<std::string> inpu_t, std::vector<std::string>& retur_n, const std::string &folder)
 {
     for (auto &i : inpu_t)
         if(i.find(key) != std::string::npos)
-            retur_n.emplace_back(i);
+            retur_n.emplace_back(folder + "/" + i);
 }
 
 void scandir(const std::string &folder, std::vector<std::string>& retur_n)
