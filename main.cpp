@@ -5,8 +5,15 @@
 #include <stdio.h>
 #include <cstring>
 #include <vector>
+#include <list>
+#include <algorithm>
+#include <set>
+#include <map>
 
+void scanclon(std::vector<std::string>& retur_n);
+void scanone(const std::string &folder, std::vector<std::string>& namecpp, std::vector<std::string>& namehpp);
 void info(const std::string &message);
+void scanfander(std::vector<std::string> inpu_t, std::vector<std::string>& retur_n);
 void scanfind(const std::string &key, std::vector<std::string> inpu_t, std::vector<std::string>& retur_n);
 void scandir(const std::string &folder, std::vector<std::string>& retur_n);
 void scanhpp(const std::vector<std::string> &inpu_t, std::vector<std::string>& retur_n);
@@ -14,26 +21,57 @@ void scancpp(std::vector<std::string> inpu_t, std::vector<std::string>& retur_n)
 
 int main()
 {
-    std::vector<std::string> names, namescpp, nameshpp;
+    std::vector<std::string> names, namescpp, nameshpp, fander;
+    std::string folder = std::string("/home/") + std::getenv("USER") + "/raknet";
 
-    scandir(std::string("/home/") + std::getenv("USER") + "/encrychan/test", names);
-
-    for (const std::string &si : names)
-        info(si);
+    scanone(folder, namescpp, nameshpp);
+    scanclon(namescpp);
+    scanclon(nameshpp);
 
     info("#####################################################################################################: cpp");
-    scancpp(names, namescpp);
-    info("Количество файлов: " + std::to_string(namescpp.size()));
+    info("Количество файлов: " + std::to_string(namescpp.size()) + "\n");
     for (const std::string &s : namescpp)
         info(s);
 
     info("#####################################################################################################: hpp");
-    scanhpp(names, nameshpp);
-    info("Количество файлов: " + std::to_string(nameshpp.size()));
+    info("Количество файлов: " + std::to_string(nameshpp.size()) + "\n");
     for (const std::string &sy : nameshpp)
         info(sy);
 
     return 0;
+}
+
+void scanclon(std::vector<std::string>& retur_n)
+{/*
+    sort(retur_n.begin(), retur_n.end());
+
+    std::set<std::string> uvec(retur_n.begin(), retur_n.end());
+
+    std::list<std::string> output;
+
+    set_difference(retur_n.begin(), retur_n.end(),
+                   uvec.begin(), uvec.end(),
+                   back_inserter(output));*/
+
+}
+
+void scanone(const std::string &folder, std::vector<std::string>& namecpp, std::vector<std::string>& namehpp)
+{
+    std::vector<std::string> names, fander;
+    scandir(folder, names);
+    scancpp(names, namecpp);
+    scanhpp(names, namehpp);
+    scanfander(names, fander);
+
+    for (const std::string &si : fander)
+        scanone(folder + "/" + si, namecpp, namehpp);
+}
+
+void scanfander(std::vector<std::string> inpu_t, std::vector<std::string>& retur_n)
+{
+    for (auto &i : inpu_t)
+        if(i.find('.') == std::string::npos)
+            retur_n.emplace_back(i);
 }
 
 void scancpp(std::vector<std::string> inpu_t, std::vector<std::string>& retur_n)
