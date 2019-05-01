@@ -16,7 +16,7 @@ int main()
 {
     std::vector<std::string> names, namescpp, nameshpp;
 
-    scandir("/home/test/encrychan/test", names);
+    scandir(std::string("/home/") + std::getenv("USER") + "/encrychan/test", names);
 
     for (const std::string &si : names)
         info(si);
